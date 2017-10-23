@@ -76,7 +76,16 @@ defmodule Violet do
   Sets the named key to the given value
   """
   def set(key, value) do
-    HTTPotion.put etcd_keys() <> key, [body: "value=#{inspect handle_encode(value)}"]
+    HTTPotion.put etcd_keys() <> key, 
+    [body: "value=#{inspect handle_encode(value)}"]
+  end
+
+  @doc """
+  Set the named key to the given value in the named dir
+  """
+  def set(dir, key, value) do
+    HTTPotion.put etcd_keys() <> dir <> "/" <> key, 
+    [body: "value=#{inspect handle_encode(value)}"]
   end
 
   @doc """
