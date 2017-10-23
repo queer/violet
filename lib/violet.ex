@@ -79,7 +79,7 @@ defmodule Violet do
   """
   def list_dir(dir) do
     res = HTTPotion.get etcd_keys() <> dir
-    Poison.decode! res.body
+    (Poison.decode! res.body)["node"]["nodes"]
   end
 
   defp handle_encode(data) do
