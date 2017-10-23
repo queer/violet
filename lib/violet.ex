@@ -22,6 +22,13 @@ defmodule Violet do
   end
 
   @doc """
+  etcd API keys base URL
+  """
+  def etcd_keys do
+    etcd_api() <> "/keys/"
+  end
+
+  @doc """
   Returns whether or not the given etcd API output is an error, ie. if it has 
   an `errorCode` field. 
   """
@@ -45,7 +52,7 @@ defmodule Violet do
   Creates the named etcd directory
   """
   def make_dir(dir) do
-    res = HTTPotion.put etcd_api() <> "/keys/" <> dir, [body: "dir=true"]
+    res = HTTPotion.put etcd_keys() <> dir, [body: "dir=true"]
     Poison.decode! res.body
   end
 
@@ -53,7 +60,7 @@ defmodule Violet do
   Lists the nodes of the named etcd directory
   """
   def list_dir(dir) do
-    res = HTTPotion.get etcd_api() <> "/keys/" <> dir
+    res = HTTPotion.get etcd_keys() <> dir
     Poison.decode! res.body
   end
 
@@ -69,14 +76,22 @@ defmodule Violet do
   Sets the named key to the given value
   """
   def set(key, value) do
-    HTTPotion.put etcd_api() <> "/keys/" <> key, [body: "value=#{inspect handle_encode(value)}"]
+    HTTPotion.put etcd_keys() <> key, [body: "value=#{inspect handle_encode(value)}"]
   end
 
   @doc """
   Gets the node info of the named key
   """
   def get(key) do
-    res = HTTPotion.get etcd_api() <> "/keys/" <> key
+    res = HTTPotion.get etcd_keys() <> key
+    Poison.decode! res.body
+  end
+
+  @doc """
+  Deletes the named key from etcd
+  """
+  def delete(key) do
+    res = HTTPotion.delete etcd_api() <> key
     Poison.decode! res.body
   end
 
