@@ -57,7 +57,25 @@ defmodule Violet do
   end
 
   @doc """
-  Lists the nodes of the named etcd directory
+  Lists the nodes of the named etcd directory.
+  
+  Conveniently, each node has both the key AND the value. This data structure
+  looks something like
+
+      "nodes": [
+        {
+          "key": "/foo_dir",
+          "dir": true,
+          "modifiedIndex": 2,
+          "createdIndex": 2
+        },
+        {
+          "key": "/foo",
+          "value": "two",
+          "modifiedIndex": 1,
+          "createdIndex": 1
+        }
+      ]
   """
   def list_dir(dir) do
     res = HTTPotion.get etcd_keys() <> dir
