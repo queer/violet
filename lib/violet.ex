@@ -94,14 +94,14 @@ defmodule Violet do
   Sets the named key to the given value
   """
   def set(key, value) do
-    put etcd_keys() <> key, "value=#{inspect handle_encode(value)}"
+    put etcd_keys() <> key, "value=#{handle_encode(value)}"
   end
 
   @doc """
   Set the named key to the given value in the named dir
   """
   def set(dir, key, value) do
-    put etcd_keys() <> dir <> "/" <> key, "value=#{inspect handle_encode(value)}"
+    put etcd_keys() <> dir <> "/" <> key, "value=#{handle_encode(value)}"
   end
 
   @doc """
