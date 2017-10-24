@@ -116,7 +116,7 @@ defmodule Violet do
   Deletes the named key from etcd
   """
   def delete(key) do
-    res = HTTPotion.delete etcd_api() <> key
+    res = HTTPotion.delete etcd_keys() <> key
     Poison.decode! res.body
   end
 
