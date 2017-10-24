@@ -82,26 +82,18 @@ defmodule Violet do
     (Poison.decode! res.body)["node"]["nodes"]
   end
 
-  defp handle_encode(data) do
-    unless is_binary data do
-      Poison.encode! data
-    else
-      data
-    end
-  end
-
   @doc """
   Sets the named key to the given value
   """
   def set(key, value) do
-    put etcd_keys() <> key, "value=#{handle_encode(value)}"
+    put etcd_keys() <> key, "value=#{value}"
   end
 
   @doc """
   Set the named key to the given value in the named dir
   """
   def set(dir, key, value) do
-    put etcd_keys() <> dir <> "/" <> key, "value=#{handle_encode(value)}"
+    put etcd_keys() <> dir <> "/" <> key, "value=#{value}"
   end
 
   @doc """
