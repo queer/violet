@@ -113,15 +113,20 @@ defmodule Violet do
   end
 
   @doc """
+  Convenience method for deleting from a dir
+  """
+  def delete(dir, key) do
+    res = HTTPotion.delete etcd_keys() <> "/" <> dir <> "/" <> key
+    Poison.decode! res.body
+  end
+
+  @doc """
   Gets the value at the named key. This is NOT the same as `get/1`!
   """
   def get_value(key) do
     get(key)["node"]["value"]
   end
 
-  @doc """
-  Helper method to PUT data into etcd correctly
-  """
   defp put(url, data) do
     HTTPotion.put url, [body: data, headers: ["User-Agent": "violet", "Content-Type": "application/x-www-form-urlencoded"]]
   end
