@@ -43,7 +43,7 @@ defmodule Violet do
   Returns the version info about the etcd cluster as a map
   """
   def get_version do
-    etcd_res = etcd_url() <> "/version"
+    etcd_res = "#{etcd_url()}/version"
                |> HTTPotion.get
     Poison.decode!(etcd_res.body)
   end
@@ -52,7 +52,7 @@ defmodule Violet do
   Creates the named etcd directory
   """
   def make_dir(dir) do
-    res = put etcd_keys() <> dir, "dir=true"
+    res = put "#{etcd_keys()}/#{dir}", "dir=true"
     Poison.decode! res.body
   end
 
@@ -78,7 +78,7 @@ defmodule Violet do
       ]
   """
   def list_dir(dir) do
-    res = HTTPotion.get etcd_keys() <> dir
+    res = HTTPotion.get "#{etcd_keys()}/#{dir}"
     (Poison.decode! res.body)["node"]["nodes"]
   end
 
@@ -86,21 +86,21 @@ defmodule Violet do
   Sets the named key to the given value
   """
   def set(key, value) do
-    put etcd_keys() <> key, "value=#{value}"
+    put "#{etcd_keys()}/#{key}", "value=#{value}"
   end
 
   @doc """
   Set the named key to the given value in the named dir
   """
   def set(dir, key, value) do
-    put etcd_keys() <> dir <> "/" <> key, "value=#{value}"
+    put "#{etcd_keys()}/#{dir}/#{key}", "value=#{value}"
   end
 
   @doc """
   Gets the node info of the named key
   """
   def get(key) do
-    res = HTTPotion.get etcd_keys() <> key
+    res = HTTPotion.get "#{etcd_keys()}/#{key}"
     Poison.decode! res.body
   end
 
@@ -108,7 +108,7 @@ defmodule Violet do
   Deletes the named key from etcd
   """
   def delete(key) do
-    res = HTTPotion.delete etcd_keys() <> key
+    res = HTTPotion.delete "#{etcd_keys()}/#{key}"
     Poison.decode! res.body
   end
 
@@ -116,7 +116,7 @@ defmodule Violet do
   Convenience method for deleting from a dir
   """
   def delete(dir, key) do
-    res = HTTPotion.delete etcd_keys() <> "/" <> dir <> "/" <> key
+    res = HTTPotion.delete "#{etcd_keys()}/#{dir}/#{key}"
     Poison.decode! res.body
   end
 
