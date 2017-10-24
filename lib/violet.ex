@@ -25,7 +25,7 @@ defmodule Violet do
   etcd API keys base URL
   """
   def etcd_keys do
-    etcd_api() <> "/keys/"
+    etcd_api() <> "/keys"
   end
 
   @doc """
