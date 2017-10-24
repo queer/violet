@@ -52,7 +52,7 @@ defmodule Violet do
   Creates the named etcd directory
   """
   def make_dir(dir) do
-    res = HTTPotion.put etcd_keys() <> dir, [body: "dir=true"]
+    res = put etcd_keys() <> dir, "dir=true"
     Poison.decode! res.body
   end
 
@@ -94,16 +94,14 @@ defmodule Violet do
   Sets the named key to the given value
   """
   def set(key, value) do
-    HTTPotion.put etcd_keys() <> key, 
-    [body: "value=#{inspect handle_encode(value)}"]
+    put etcd_keys() <> key, "value=#{inspect handle_encode(value)}"
   end
 
   @doc """
   Set the named key to the given value in the named dir
   """
   def set(dir, key, value) do
-    HTTPotion.put etcd_keys() <> dir <> "/" <> key, 
-    [body: "value=#{inspect handle_encode(value)}"]
+    put etcd_keys() <> dir <> "/" <> key, "value=#{inspect handle_encode(value)}"
   end
 
   @doc """
@@ -127,5 +125,12 @@ defmodule Violet do
   """
   def get_value(key) do
     get(key)["node"]["value"]
+  end
+
+  @doc """
+  Helper method to PUT data into etcd correctly
+  """
+  defp put(url, data) do
+    HTTPotion.put url, [body: data, headers: ["User-Agent": "violet", "Content-Type": "application/x-www-form-urlencoded"]]
   end
 end
