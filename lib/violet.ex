@@ -138,4 +138,15 @@ defmodule Violet do
   defp put(url, data) do
     HTTPotion.put url, [body: data, headers: ["User-Agent": "violet", "Content-Type": "application/x-www-form-urlencoded"]]
   end
+
+  def stats do
+    leader = HTTPotion.get "#{etcd_api()}/stats/leader"
+    self = HTTPotion.get "#{etcd_api()}/stats/self"
+    store = HTTPotion.get "#{etcd_api()}/stats/store"
+    %{
+      leader: leader,
+      self: self,
+      store: store
+    }
+  end
 end
