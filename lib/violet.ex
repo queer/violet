@@ -121,6 +121,14 @@ defmodule Violet do
   end
 
   @doc """
+  Recursively delete a dir
+  """
+  def recursive_delete(dir) do
+    res = HTTPotion.delete "#{etcd_keys()}/#{dir}?recursive=true"
+    Poison.decode! res.body
+  end
+
+  @doc """
   Gets the value at the named key. This is NOT the same as `get/1`!
   """
   def get_value(key) do
