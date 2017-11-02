@@ -105,15 +105,15 @@ defmodule Violet do
   end
 
   @doc """
-  Deletes the named key from etcd
+  Deletes the named key from etcd. Assumes a / at the start of the key.
   """
   def delete(key) do
-    res = HTTPotion.delete "#{etcd_keys()}/#{key}"
+    res = HTTPotion.delete "#{etcd_keys()}#{key}"
     Poison.decode! res.body
   end
 
   @doc """
-  Convenience method for deleting from a dir
+  Convenience method for deleting from a dir.
   """
   def delete(dir, key) do
     res = HTTPotion.delete "#{etcd_keys()}/#{dir}/#{key}"
