@@ -3,6 +3,8 @@ defmodule Violet do
   Documentation for Violet.
   """
 
+  require Logger
+
   @doc """
   Gets the etcd URL from the environment, or just localhost:2379 if `ETCD_URL`
   is not set.
