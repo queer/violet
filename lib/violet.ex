@@ -140,9 +140,9 @@ defmodule Violet do
   end
 
   def stats do
-    leader = HTTPotion.get "#{etcd_api()}/stats/leader"
-    self = HTTPotion.get "#{etcd_api()}/stats/self"
-    store = HTTPotion.get "#{etcd_api()}/stats/store"
+    leader = (HTTPotion.get "#{etcd_api()}/stats/leader").body |> Poison.decode!
+    self = (HTTPotion.get "#{etcd_api()}/stats/self").body |> Poison.decode!
+    store = (HTTPotion.get "#{etcd_api()}/stats/store").body |> Poison.decode!
     %{
       leader: leader,
       self: self,
