@@ -33,10 +33,20 @@ defmodule Violet do
   an `errorCode` field. 
   """
   def is_error?(body) do
-    case body[:errorCode] do
+    res = case body[:errorCode] do
       nil -> false
       _ -> true
     end
+
+    # Okay this is technically unsafe but idefk anymore
+    if not res do
+      res = case body["errorCode"] do
+        nil -> false
+        _ -> true
+      end
+    end
+
+    res
   end
 
   @doc """
