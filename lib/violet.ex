@@ -39,11 +39,15 @@ defmodule Violet do
     end
 
     # Okay this is technically unsafe but idefk anymore
-    if not res do
-      res = case body["errorCode"] do
-        nil -> false
-        _ -> true
+    try do
+      if not res do
+        res = case body["errorCode"] do
+          nil -> false
+          _ -> true
+        end
       end
+    rescue
+      Logger.warn "Violet.is_error?/1 did a boom. Fuck you, Access.get/3"
     end
 
     res
