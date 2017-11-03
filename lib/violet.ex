@@ -47,7 +47,7 @@ defmodule Violet do
         end
       end
     rescue
-      Logger.warn "Violet.is_error?/1 did a boom. Fuck you, Access.get/3"
+      _ -> Logger.warn "Violet.is_error?/1 did a boom. Fuck you, Access.get/3"
     end
 
     res
