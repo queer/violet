@@ -1,6 +1,7 @@
 # violet
 
-violet is a simple etcd client written in Elixir, mainly only used for my personal projects. I pulled it out into a separate repo so I can use one thing for all my projects :thumbsup: 
+violet is a simple etcd client written in Elixir, only used for my personal
+projects.
 
 ## Installation
 
@@ -12,4 +13,13 @@ def deps do
     {:violet, github: "queer/violet"}
   ]
 end
+```
+
+## Configuration
+
+Put something like this in your config.exs:
+
+```elixir
+config :violet, :etcd,
+  :url, "http://localhost:2379"
 ```
